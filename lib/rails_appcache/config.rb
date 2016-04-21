@@ -26,7 +26,16 @@ module RailsAppcache
     def version=(value)
       @appcache_version = value
     end
-  end
 
+    # Return the current optional_param class
+    def optional_param_getter
+      @appcache_optional_param_getter
+    end
+
+    # Assign an explicit optional_param to our manifests
+    def optional_param_getter=(klass)
+      @appcache_optional_param_getter = klass
+    end
+  end
 end
 

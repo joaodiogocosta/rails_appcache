@@ -5,7 +5,7 @@ class RailsAppcache::ManifestsController < RailsAppcache::ApplicationController
   before_filter :check_caching_enabled
 
   def show
-    if params[:version] == appcache_version_string
+    if same_version? && same_optional_param?
       # This is a request from a current version of the page
       render params[:manifest]
     else
@@ -28,4 +28,12 @@ class RailsAppcache::ManifestsController < RailsAppcache::ApplicationController
     display_404 unless RailsAppcache.config.perform_caching?
   end
 
+  def same_version?
+    params[:version] == appcache_version_string
+  end
+
+  def same_optional_param?
+    return true unless appcache_optional_param
+    params[:optional_param] == appcache_optional_param
+  end
 end

@@ -3,13 +3,18 @@ module RailsAppcache
     def appcache_manifest_path(path)
       return "" unless RailsAppcache.config.perform_caching?
 
-      "/#{path}-#{appcache_version_string}.appcache"
+      "/#{path}-#{appcache_version_string}#{'-' + appcache_optional_param}.appcache"
     end
 
     # In development, serve up a new manifest every time
     # In production, serve the current Git revision
     def appcache_version_string
       RailsAppcache.config.version
+    end
+
+    def appcache_optional_param
+      opts = { env: request.env }
+      RailsAppcache.config.optional_param_getter.new(opts).get.to_s
     end
 
     def stylesheet_cache_path(*paths)
